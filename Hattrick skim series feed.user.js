@@ -12,7 +12,7 @@
 (function() {
     'use strict';
 
-    let filter = [
+    let filter = new RegExp([
         // italiano
         ' ha scritto un messaggio sui social dove rende noto ai suoi fan di essere',
         ' Pochi minuti dopo, l\'ufficio stampa della squadra ha confermato la notizia pubblicando un comunicato ufficiale.',
@@ -31,9 +31,9 @@
         ' that is presumed to become a key player for the team',
         ' an essential player',
         '. The player is',
-    ];
+    ].join('|'), 'gi');
 
     for (let td of document.querySelectorAll('#ctl00_ctl00_CPContent_CPMain_repLLUEvents td')) {
-        td.innerHTML = td.innerHTML.replaceAll(new RegExp(filter.join('|'), 'gi'), '');
+        td.innerHTML = td.innerHTML.replaceAll(filter, '');
     }
 })();
