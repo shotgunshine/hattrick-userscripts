@@ -9,9 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
-    'use strict';
-
+function skimSeriesFeed() {
     let filter = new RegExp([
         // italiano
         ' ha scritto un messaggio sui social dove rende noto ai suoi fan di essere',
@@ -33,7 +31,21 @@
         '. The player is',
     ].join('|'), 'gi');
 
-    for (let td of document.querySelectorAll('#ctl00_ctl00_CPContent_CPMain_repLLUEvents td')) {
-        td.innerHTML = td.innerHTML.replaceAll(filter, '');
-    }
+    let feed = document.getElementById('ctl00_ctl00_CPContent_CPMain_repLLUEvents');
+    feed.innerHTML = feed.innerHTML.replaceAll(filter, '');
+}
+
+(function() {
+    'use strict';
+
+    skimSeriesFeed();
+
+    let observerTarget = document.getElementById('ctl00_ctl00_CPContent_CPMain_updLLUEvents');
+    let observerOptions = {subtree: true, childList: true};
+    const observer = new MutationObserver(() => {
+        observer.disconnect();
+        skimSeriesFeed();
+        observer.observe(observerTarget, observerOptions);
+    });
+    observer.observe(observerTarget, observerOptions);
 })();

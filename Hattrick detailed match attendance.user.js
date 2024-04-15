@@ -17,7 +17,7 @@ function detailedAttendance(seats, sold, price) {
 
     let match = window.HT.ngMatch.data;
 
-    if (match.isFinished && !match.isWalkover && match.sourceSystem != 'Youth') {
+    if (match.isFinished && !match.isWalkover && match.sourceSystem == 'Hattrick') {
         let table = document.querySelectorAll('.box.matchinfo .htbox-table tr');
 
         table[0].innerHTML += detailedAttendance(match.seatsStanding, match.soldSeatsStanding, 7);

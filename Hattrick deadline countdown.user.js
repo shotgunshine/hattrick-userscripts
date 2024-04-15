@@ -8,7 +8,7 @@
 // @grant        none
 // ==/UserScript==
 
-function formatTime(n) { return ((n < 10) ? '0' : '') + n }
+function formatTime(n) { return n.toString().padStart(2, '0'); }
 
 function showDeadlines() {
     let auctions = document.querySelectorAll('[id*="lblDeadline"]');
