@@ -20,7 +20,8 @@ function showDeadlines() {
             let hrs = Math.floor(delta/1000/60/60);
             let min = Math.floor(delta/1000/60 - 60*hrs);
             let sec = Math.floor(delta/1000 - 60*min - 60*60*hrs);
-            a.innerHTML = `${formatTime(hrs)}:${formatTime(min)}:${formatTime(sec)}`;
+            a.innerHTML = a.getAttribute('data-isodate');
+            a.innerHTML += ` (${formatTime(hrs)}:${formatTime(min)}:${formatTime(sec)})`;
         }
     }
 }
