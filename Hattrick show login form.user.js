@@ -11,5 +11,6 @@
 (function() {
     'use strict';
 
+    window.HT.startPage.hideFirstSignupSetup();
     window.HT.startPage.showFirstSignupSetup = null;
 })();
