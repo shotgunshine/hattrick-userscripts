@@ -16,6 +16,7 @@
         {url: '/Club/Matches/MatchOrder/Matchorder.aspx?MatchID=0&SourceSystem=Hattrick&teamId=0', icon: 'scMatches2', alt: 'Simulatore di formazione'},
         {url: '/Club/TacticsRoom/', icon: 'scAnalyzer', alt: 'Ufficio del tattico'},
         {url: 'https://shotgunshine.github.io/imp/', icon: 'scMatches', alt: 'IMP: Match Predictor'},
+        {url: 'https://nickarana.pythonanywhere.com/', icon: 'scPlayers', alt: 'Nickarana\'s Match Simulator'},
         {url: 'https://hattrickportal.pro/Utils/PlayerTraining.aspx', icon: 'scTraining', alt: 'HT Portal » Training calculator'},
     ];
 
