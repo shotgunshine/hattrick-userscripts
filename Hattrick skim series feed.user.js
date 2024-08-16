@@ -39,7 +39,7 @@ function skimSeriesFeed() {
         'I tifosi di ',
         'stanno vivendo un vero e proprio psicodramma da quando ',
         ' continuerà a partecipare a tutte le competizioni, ma l\'incertezza che circonda il club si ripercuoterà inevitabilmente su giocatori e staff',
-        'Nonostante rimanga una giornata ancora da giocare, ',
+        'Nonostante rimanga(no)? (una|[0-9]+) giornat(a|e) ancora da giocare, ',
         ' Congratulazioni, campioni[!]',
         'Congratulazioni a ',
         ' e la prossima stagione giocherà nella serie superiore',
@@ -60,7 +60,7 @@ function skimSeriesFeed() {
         ' an essential player',
         '[.] The player is',
 
-        '; otherwise, their promotion chances will evaporate into thin air[.] Can they deliver[?]',
+        ', otherwise their promotion chances will evaporate into thin air[.] Can they deliver[?]',
         'There is no hope left for ',
         '[!] The team',
         ' no matter what they do in the (last|final [0-9]+) round(s)?[.]',
@@ -72,7 +72,7 @@ function skimSeriesFeed() {
 
         'Following weeks of rumors, it has been confirmed that ',
         ' The team will continue to participate in all competitions, but the uncertainty surrounding the club will likely affect players and staff.',
-        'Despite there being [0-9]+ round left to play, ',
+        'Despite there being [0-9]+ round(s)? left to play, ',
         ' Congratulations, champions[!]',
         'Having just been promoted, ',
         ' for the upcoming season',
