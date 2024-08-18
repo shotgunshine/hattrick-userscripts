@@ -105,8 +105,9 @@ function printFilters() {
     }
     document.getElementById('customFilterList').innerHTML = list;
     for (let li of document.getElementById('customFilterList').children) {
-        li.children[0].addEventListener('click', x => { deleteFilter(li.getAttribute('filter-name')); });
-        li.children[1].addEventListener('click', x => { setFilter(GM_getValue(li.getAttribute('filter-name'))); });
+        let name = li.getAttribute('filter-name');
+        li.children[0].addEventListener('click', () => { deleteFilter(name); });
+        li.children[1].addEventListener('click', () => { setFilter(GM_getValue(name)); });
     }
 }
 
