@@ -11,7 +11,7 @@
 // @grant        GM_listValues
 // ==/UserScript==
 
-function savePost(name, id) {
+function savePost(id, name) {
     GM_setValue(id, name);
 }
 
@@ -42,7 +42,7 @@ function bookmarkButton(postId) {
     button.href = `#${postId}`;
     button.textContent = '🔖';
     let postName = `${document.title.split('»')[0].trim()} (${postId})`;
-    button.addEventListener('click', () => { savePost(postName, postId); });
+    button.addEventListener('click', () => { savePost(postId, postName); });
 
     return button;
 }
