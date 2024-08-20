@@ -26,4 +26,8 @@ function detailedAttendance(seats, sold, price) {
         table[3].innerHTML += detailedAttendance(match.seatsBoxed, match.soldSeatsBoxed, 35);
         table[4].firstChild.nextSibling.setAttribute('colspan', 3);
     }
+
+    for (let tooltip of document.getElementsByTagName('hattrick-tooltip')) {
+         tooltip.remove();
+    }
 })();
