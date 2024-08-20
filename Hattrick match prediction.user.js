@@ -44,7 +44,7 @@ function getOdds(prediction) {
 
     let match = window.HT.ngMatch.data;
 
-    if (match.isFinished && !match.isWalkover && match.sourceSystem != 'Youth') {
+    if (match.isFinished && !match.isWalkover) {
         let home = getRatings(match.ratings.filter(x => x.teamId ==  match.homeTeamIdDB)[0], match.homeTacticType, match.homeTacticSkill);
         let away = getRatings(match.ratings.filter(x => x.teamId ==  match.awayTeamIdDB)[0], match.awayTacticType, match.awayTacticSkill);
         let possession = IMP.predictor.chanceDistribution(home.midfield, away.midfield);
