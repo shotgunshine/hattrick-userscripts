@@ -25,7 +25,7 @@ function skimSeriesFeed() {
 
         ' altrimenti le loro possibilità di promozione svaniranno[.] Riusciranno a rimanere lucidi[?]',
         'Non c\'è più speranza per ',
-        '[.] La squadra',
+        '[!.] La squadra',
         ' indipendentemente da quello che accadrà nel turno [0-9]+[.]',
         ' indipendentemente da quello che accadrà negli ultimi  [0-9]+ turni',
         ' indipendentemente da quello che accadrà nell\'ultimo turno[.]',
@@ -47,7 +47,6 @@ function skimSeriesFeed() {
         ' è purtroppo diventata realtà',
         'deve voltare pagina dopo il triste epilogo dello scorso campionato[.] A seguito della retrocessione, la squadra ',
         'Fresca di promozione, ',
-        '[!] La squadra',
 
         // english
 
@@ -62,7 +61,7 @@ function skimSeriesFeed() {
 
         ', otherwise their promotion chances will evaporate into thin air[.] Can they deliver[?]',
         'There is no hope left for ',
-        '[!] The team',
+        '[!.] The team',
         ' no matter what they do in the (last|final [0-9]+) round(s)?[.]',
         'to get real[.] They ',
         'It\'s time for ',
