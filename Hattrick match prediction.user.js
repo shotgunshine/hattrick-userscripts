@@ -12,20 +12,41 @@
 // @require      https://shotgunshine.github.io/imp/imp/predictor.js
 // ==/UserScript==
 
-function getRatings(ratings, tacticType, tacticSkill) {
+function getRatingsHome(json) {
+    let ratings = json.ratings.filter(x => x.teamId == json.homeTeamIdDB)[0];
+    let timeline = json.analysis.timeline.filter(x => x.minute < 5).at(-1);
     return new IMP.ratings(
-        ratings.averageLeftDef,
-        ratings.averageMidDef,
-        ratings.averageRightDef,
-        ratings.averageMidfield,
-        ratings.averageLeftAtt,
-        ratings.averageMidAtt,
-        ratings.averageRightAtt,
-        ratings.averageIndirectFreeKickDef,
-        ratings.averageIndirectFreeKickAtt,
+        timeline.ratings.sectors[2].homeRating / 4,
+        timeline.ratings.sectors[1].homeRating / 4,
+        timeline.ratings.sectors[0].homeRating / 4,
+        timeline.ratings.sectors[3].homeRating / 4,
+        timeline.ratings.sectors[6].homeRating / 4,
+        timeline.ratings.sectors[5].homeRating / 4,
+        timeline.ratings.sectors[4].homeRating / 4,
+        ratings.averageIndirectFreeKickDef / 4,
+        ratings.averageIndirectFreeKickAtt / 4,
         0.25,
-        tacticType,
-        tacticSkill
+        json.homeTacticType,
+        json.homeTacticSkill
+    );
+}
+
+function getRatingsAway(json) {
+    let ratings = json.ratings.filter(x => x.teamId == json.awayTeamIdDB)[0];
+    let timeline = json.analysis.timeline.filter(x => x.minute < 5).at(-1);
+    return new IMP.ratings(
+        timeline.ratings.sectors[4].awayRating / 4,
+        timeline.ratings.sectors[5].awayRating / 4,
+        timeline.ratings.sectors[6].awayRating / 4,
+        timeline.ratings.sectors[3].awayRating / 4,
+        timeline.ratings.sectors[0].awayRating / 4,
+        timeline.ratings.sectors[1].awayRating / 4,
+        timeline.ratings.sectors[2].awayRating / 4,
+        ratings.averageIndirectFreeKickDef / 4,
+        ratings.averageIndirectFreeKickAtt / 4,
+        0.25,
+        json.awayTacticType,
+        json.awayTacticSkill
     );
 }
 
@@ -45,8 +66,9 @@ function getOdds(prediction) {
     let match = window.HT.ngMatch.data;
 
     if (match.isFinished && !match.isWalkover) {
-        let home = getRatings(match.ratings.filter(x => x.teamId ==  match.homeTeamIdDB)[0], match.homeTacticType, match.homeTacticSkill);
-        let away = getRatings(match.ratings.filter(x => x.teamId ==  match.awayTeamIdDB)[0], match.awayTacticType, match.awayTacticSkill);
+        let home = getRatingsHome(match);
+        let away = getRatingsAway(match);
+
         let possession = IMP.predictor.chanceDistribution(home.midfield, away.midfield);
         let pressing = IMP.predictor.tacticEfficacy(1, home.tactics[1]);
         pressing += IMP.predictor.tacticEfficacy(1, away.tactics[1]);
