@@ -27,6 +27,7 @@ function printPosts() {
         list += '<a href="#">🗑️</a> ';
         list += `<a href="/Forum/Read.aspx?t=${p.split('.')[0]}&n=${p.split('.')[1]}">`;
         list += GM_getValue(p);
+        list += ` (${p})`;
         list += '</a></li>';
     }
     document.getElementById('forum-bookmarks').innerHTML = list;
@@ -41,7 +42,7 @@ function bookmarkButton(postId) {
     let button = document.createElement('a');
     button.href = `#${postId}`;
     button.textContent = '🔖';
-    let postName = `${document.title.split('»')[0].trim()} (${postId})`;
+    let postName = document.title.split('»')[0].trim();
     button.addEventListener('click', () => { savePost(postId, postName); });
 
     return button;
