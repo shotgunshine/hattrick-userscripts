@@ -1,52 +1,87 @@
 // ==UserScript==
 // @name         Hattrick match prediction
 // @version      2024-04-15
-// @description  
+// @description  Show a (bad) prediction on the match report
 // @author       shotgunshine
 // @license      MIT
 // @match        https://*.hattrick.org/Club/Matches/Match.aspx*
-// @match        https://*.hattrick.org/*/Club/Matches/Match.aspx*
 // @grant        none
 // @require      https://shotgunshine.github.io/imp/imp/binomial.js
 // @require      https://shotgunshine.github.io/imp/imp/ratings.js
 // @require      https://shotgunshine.github.io/imp/imp/predictor.js
 // ==/UserScript==
 
-function getRatingsHome(json) {
-    let ratings = json.ratings.filter(x => x.teamId == json.homeTeamIdDB)[0];
-    let timeline = json.analysis.timeline.filter(x => x.minute < 5).at(-1);
+function getRatingsHome(match) {
+    let ratings = match.ratings.filter(x => x.teamId == match.homeTeamIdDB)[0];
+    let timeline = match.analysis.timeline.filter(x => x.minute < 5).at(-1);
     return new IMP.ratings(
-        timeline.ratings.sectors[2].homeRating / 4,
-        timeline.ratings.sectors[1].homeRating / 4,
-        timeline.ratings.sectors[0].homeRating / 4,
-        timeline.ratings.sectors[3].homeRating / 4,
-        timeline.ratings.sectors[6].homeRating / 4,
-        timeline.ratings.sectors[5].homeRating / 4,
-        timeline.ratings.sectors[4].homeRating / 4,
-        ratings.averageIndirectFreeKickDef / 4,
-        ratings.averageIndirectFreeKickAtt / 4,
+        timeline.ratings.sectors[2].homeRating,
+        timeline.ratings.sectors[1].homeRating,
+        timeline.ratings.sectors[0].homeRating,
+        timeline.ratings.sectors[3].homeRating,
+        timeline.ratings.sectors[6].homeRating,
+        timeline.ratings.sectors[5].homeRating,
+        timeline.ratings.sectors[4].homeRating,
+        ratings.averageIndirectFreeKickDef,
+        ratings.averageIndirectFreeKickAtt,
         0.25,
-        json.homeTacticType,
-        json.homeTacticSkill
+        match.homeTacticType,
+        match.homeTacticSkill
     );
 }
 
-function getRatingsAway(json) {
-    let ratings = json.ratings.filter(x => x.teamId == json.awayTeamIdDB)[0];
-    let timeline = json.analysis.timeline.filter(x => x.minute < 5).at(-1);
+function getRatingsAway(match) {
+    let ratings = match.ratings.filter(x => x.teamId == match.awayTeamIdDB)[0];
+    let timeline = match.analysis.timeline.filter(x => x.minute < 5).at(-1);
     return new IMP.ratings(
-        timeline.ratings.sectors[4].awayRating / 4,
-        timeline.ratings.sectors[5].awayRating / 4,
-        timeline.ratings.sectors[6].awayRating / 4,
-        timeline.ratings.sectors[3].awayRating / 4,
-        timeline.ratings.sectors[0].awayRating / 4,
-        timeline.ratings.sectors[1].awayRating / 4,
-        timeline.ratings.sectors[2].awayRating / 4,
-        ratings.averageIndirectFreeKickDef / 4,
-        ratings.averageIndirectFreeKickAtt / 4,
+        timeline.ratings.sectors[4].awayRating,
+        timeline.ratings.sectors[5].awayRating,
+        timeline.ratings.sectors[6].awayRating,
+        timeline.ratings.sectors[3].awayRating,
+        timeline.ratings.sectors[0].awayRating,
+        timeline.ratings.sectors[1].awayRating,
+        timeline.ratings.sectors[2].awayRating,
+        ratings.averageIndirectFreeKickDef,
+        ratings.averageIndirectFreeKickAtt,
         0.25,
-        json.awayTacticType,
-        json.awayTacticSkill
+        match.awayTacticType,
+        match.awayTacticSkill
+    );
+}
+
+function getAverageRatingsHome(match) {
+    let ratings = match.ratings.filter(x => x.teamId ==  match.homeTeamIdDB)[0];
+    return new IMP.ratings(
+        ratings.averageLeftDef,
+        ratings.averageMidDef,
+        ratings.averageRightDef,
+        ratings.averageMidfield,
+        ratings.averageLeftAtt,
+        ratings.averageMidAtt,
+        ratings.averageRightAtt,
+        ratings.averageIndirectFreeKickDef,
+        ratings.averageIndirectFreeKickAtt,
+        0.25,
+        match.homeTacticType,
+        match.homeTacticSkill
+    );
+}
+
+function getAverageRatingsAway(match) {
+    let ratings = match.ratings.filter(x => x.teamId == match.awayTeamIdDB)[0];
+    return new IMP.ratings(
+        ratings.averageLeftDef,
+        ratings.averageMidDef,
+        ratings.averageRightDef,
+        ratings.averageMidfield,
+        ratings.averageLeftAtt,
+        ratings.averageMidAtt,
+        ratings.averageRightAtt,
+        ratings.averageIndirectFreeKickDef,
+        ratings.averageIndirectFreeKickAtt,
+        0.25,
+        match.awayTacticType,
+        match.awayTacticSkill
     );
 }
 
@@ -66,8 +101,16 @@ function getOdds(prediction) {
     let match = window.HT.ngMatch.data;
 
     if (match.isFinished && !match.isWalkover) {
-        let home = getRatingsHome(match);
-        let away = getRatingsAway(match);
+        let home, away, ratings, timeline = match.analysis.timeline.filter(x => x.minute < 5).at(-1);
+        if (timeline.ratings.sectors.length) {
+            home = getRatingsHome(match);
+            away = getRatingsAway(match);
+            ratings = 'minute ' + timeline.minute;
+        } else {
+            home = getAverageRatingsHome(match);
+            away = getAverageRatingsAway(match);
+            ratings = 'average';
+        }
 
         let possession = IMP.predictor.chanceDistribution(home.midfield, away.midfield);
         let pressing = IMP.predictor.tacticEfficacy(1, home.tactics[1]);
@@ -103,7 +146,9 @@ function getOdds(prediction) {
             <div>${(10 * avgChancesHome * (1 - pressing) * avgScoringHome).toFixed(2)}</div>
             <div>Average Goals</div>
             <div>${(10 * avgChancesAway * (1 - pressing) * avgScoringAway).toFixed(2)}</div>
-            </div></div>
+            </div>
+            <div class="shy">Used ${ratings} ratings. Ignored SEs.</div>
+            </div>
         `;
     }
 })();
