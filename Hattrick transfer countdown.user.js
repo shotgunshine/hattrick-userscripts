@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Hattrick deadline countdown
+// @name         Hattrick transfer countdown
 // @version      2024-01-09
 // @description  Show the time left until the auction deadline
 // @author       shotgunshine
@@ -11,11 +11,12 @@
 function formatTime(n) { return n.toString().padStart(2, '0'); }
 
 function showDeadlines() {
-    let auctions = document.querySelectorAll('[id*="lblDeadline"]');
+    let auctions = document.querySelectorAll('[data-isodate]');
     let now = new Date();
     for (let a of auctions) {
         let d = a.getAttribute('data-isodate').split(/-| |:/);
-        let delta = new Date(d[2], d[1] - 1, d[0], d[3], d[4]) - now;
+        let end = new Date(d[2], d[1] - 1, d[0], d[3], d[4]);
+        let delta = end - now;
         if (delta > 0) {
             let hrs = Math.floor(delta/1000/60/60);
             let min = Math.floor(delta/1000/60 - 60*hrs);
@@ -34,6 +35,7 @@ function showDeadlines() {
 
     let chk = document.createElement('input');
     chk.setAttribute('type', 'checkbox');
+    document.querySelector('h1 > span.float_right').textContent = 'Auto-refresh (10s): ';
     document.querySelector('h1 > span.float_right').appendChild(chk);
     chk.checked = JSON.parse(localStorage.getItem('auto')) ?? false;
     chk.addEventListener('click', () => { localStorage.setItem('auto', chk.checked); });
