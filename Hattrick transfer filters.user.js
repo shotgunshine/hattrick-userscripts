@@ -89,6 +89,7 @@ function getFilter() {
 
 function saveFilter() {
     let name = document.getElementById('customFilterName').value;
+    if (name == '') name = Date.now();
     GM_setValue(name, getFilter());
     printFilters();
 }
@@ -101,7 +102,7 @@ function deleteFilter(name) {
 function printFilters() {
     let list = '';
     for (let f of GM_listValues()) {
-        list += `<li filter-name="${f}"><a href="#" class="float_right">🗑️</a><a href="#">${f}</a></li>`;
+        list += `<li filter-name="${f}"><a href="#${f}" class="float_right">🗑️</a><a href="#">${f}</a></li>`;
     }
     document.getElementById('customFilterList').innerHTML = list;
     for (let li of document.getElementById('customFilterList').children) {
@@ -115,7 +116,7 @@ function printFilters() {
     'use strict';
 
     let boxHead = '<div class="boxHead"><h2>';
-    boxHead += '<input type="text" value="Untitled" id="customFilterName" size="10">';
+    boxHead += '<input type="text" placeholder="Filter name" id="customFilterName" size="8">';
     boxHead += ' ';
     boxHead += '<button type="button" id="customFilterSave">Save</button>';
     boxHead += '</h2></div>';
@@ -127,5 +128,8 @@ function printFilters() {
 
     document.querySelector('.subMenu').innerHTML += filtersBox;
     document.getElementById('customFilterSave').addEventListener('click', saveFilter);
+    document.getElementById('customFilterName').addEventListener('keyup', event => {
+        if (event.key == 'Enter') saveFilter();
+    });
     printFilters();
 })();
