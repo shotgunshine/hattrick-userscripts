@@ -49,9 +49,9 @@ function printPlayers() {
 }
 
 function hotlistButton(playerId, playerName, deadline) {
-    let button = document.createElement('a');
-    button.href = `#${playerId}`;
-    button.textContent = 'Save 🔥';
+    let button = document.createElement('button');
+    button.setAttribute('type', 'button');
+    button.textContent = 'Hotlist';
     button.style = 'margin-right: 5px;';
     button.addEventListener('click', () => {
         savePlayer(playerId, playerName, deadline);
