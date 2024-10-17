@@ -102,7 +102,7 @@ function deleteFilter(name) {
 function printFilters() {
     let list = '';
     for (let f of GM_listValues()) {
-        list += `<li filter-name="${f}"><a href="#${f}" class="float_right">🗑️</a><a href="#">${f}</a></li>`;
+        list += `<li filter-name="${f}"><a href="#${f}" class="float_right">🗑️</a><a href="#${f}">${f}</a></li>`;
     }
     document.getElementById('customFilterList').innerHTML = list;
     for (let li of document.getElementById('customFilterList').children) {
@@ -114,6 +114,9 @@ function printFilters() {
 
 (function() {
     'use strict';
+
+    let chkShowAdvanced = document.getElementById('ctl00_ctl00_CPContent_CPMain_chkShowAdvanced');
+    if (!chkShowAdvanced.checked) chkShowAdvanced.click();
 
     let boxHead = '<div class="boxHead"><h2>';
     boxHead += '<input type="text" placeholder="Filter name" id="customFilterName" size="8">';
