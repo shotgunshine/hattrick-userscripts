@@ -41,8 +41,7 @@ function printPosts() {
 function bookmarkButton(postId) {
     let button = document.createElement('a');
     button.href = `#${postId}`;
-    button.textContent = 'Save 🔖';
-    button.style = 'margin-right: 5px;';
+    button.textContent = 'Bookmark';
     let postName = document.title.split('»')[0].trim();
     button.addEventListener('click', () => {
         savePost(postId, postName);
@@ -58,7 +57,7 @@ function bookmarkButton(postId) {
     if (window.location.pathname.includes('Read')) {
         for (let a of document.querySelectorAll('.cfHeader.singleLine > .float_left > a:first-child')) {
             let postId = a.getAttribute('href').split('(')[1].split('\'')[5];
-            a.parentNode.insertBefore(bookmarkButton(postId), a);
+            a.parentNode.parentNode.nextSibling.nextSibling.querySelector('.float_right').appendChild(bookmarkButton(postId));
         }
     } else {
         let box = '<div><div class="box mainBox"><h2>Bookmarked posts</h2><ul id="forum-bookmarks"></ul></div></div>';
