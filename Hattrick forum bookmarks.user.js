@@ -24,7 +24,7 @@ function printPosts() {
     let list = '';
     for (let p of GM_listValues()) {
         list += `<li post-id="${p}">`;
-        list += `<a href="#${p}">🗑️</a> `;
+        list += `<input type="image" src="../../Img/Icons/cross_small.png"> `;
         list += `<a href="/Forum/Read.aspx?t=${p.split('.')[0]}&n=${p.split('.')[1]}">`;
         list += GM_getValue(p);
         list += ` (${p})`;

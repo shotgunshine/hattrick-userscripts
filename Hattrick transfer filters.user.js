@@ -102,7 +102,10 @@ function deleteFilter(name) {
 function printFilters() {
     let list = '';
     for (let f of GM_listValues()) {
-        list += `<li filter-name="${f}"><a href="#${f}" class="float_right">🗑️</a><a href="#${f}">${f}</a></li>`;
+        list += `<li filter-name="${f}">
+            <input type="image" src="../../Img/Icons/cross_small.png" class="float_right">
+            <a href="#${f}">${f}</a>
+            </li>`;
     }
     document.getElementById('customFilterList').innerHTML = list;
     for (let li of document.getElementById('customFilterList').children) {
