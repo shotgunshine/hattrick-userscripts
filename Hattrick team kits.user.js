@@ -4,7 +4,8 @@
 // @description  Show match kits on club page and players page
 // @author       shotgunshine
 // @license      MIT
-// @match        https://*.hattrick.org/Club/*
+// @match        https://*.hattrick.org/Club/?*
+// @match        https://*.hattrick.org/Club/Players/?*
 // @grant        GM_setValue
 // @grant        GM_getValue
 // ==/UserScript==
@@ -23,9 +24,8 @@ function saveMatchKit() {
     let matchKitId = GM_getValue('matchKitId') ?? 4;
     let basePath = `https://res.hattrick.org/kits/${Math.ceil(matchKitId/100000)}/${Math.ceil(matchKitId/10000)}/${Math.ceil(matchKitId/1000)}/${matchKitId}`;
 
-    let a = document.querySelector('.footer.suphl');
-    if (a) {
-        a.outerHTML = '<div><input type="text" placeholder="MatchKitId" size="8" id="match-kit-id" /> <button type="button" id="match-kit-save">Save</button></div>';
+    if (document.querySelector('[src="../Img/Illustrations/dimmed_fake_matchkit_preview.png"]')) {
+        document.querySelector('.footer.suphl').outerHTML = '<div><input type="text" placeholder="MatchKitId" size="8" id="match-kit-id" /> <button type="button" id="match-kit-save">Save</button></div>';
         document.getElementById('match-kit-save').addEventListener('click', saveMatchKit);
         document.getElementById('match-kit-save').addEventListener('keyup', event => {
             if (event.key == 'Enter') saveMatchKit();
