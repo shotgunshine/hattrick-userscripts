@@ -37,15 +37,21 @@ function printPlayers() {
         list += `<a href="/Club/Players/Player.aspx?playerId=${id}">`;
         list += GM_getValue(id).name;
         list += ` (${id})`;
-        list += '</a><br>';
+        list += '</a> ';
+        list += `<input type="text" placeholder="Notes" value="${GM_getValue(id).notes ?? ''}" /> `;
+        list += '<br>';
         list += `<span class="shy" data-isodate="${GM_getValue(id).deadline}">${GM_getValue(id).deadline}</span>`;
         list += '</li>';
         even = !even;
     }
     document.getElementById('hotlisted-players').innerHTML = list;
     for (let li of document.getElementById('hotlisted-players').children) {
+        let id = li.getAttribute('player-id');
         li.children[0].addEventListener('click', event => {
-            deletePlayer(event.target.parentNode.getAttribute('player-id'));
+            deletePlayer(id);
+        });
+        li.children[2].addEventListener('change', event => {
+            GM_setValue(id, {name: GM_getValue(id).name, deadline: GM_getValue(id).deadline, notes: event.target.value});
         });
     }
 }
