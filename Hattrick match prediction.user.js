@@ -132,23 +132,29 @@ function getOdds(prediction) {
             countersAway
         ));
 
-        document.querySelector('.matchinfo > .boxBody').innerHTML += `
-            <div><hr><p class="center"><a href="https://shotgunshine.github.io/imp/" target="_blank">IMP: Match Predictor</a></p>
-            <div class="flex flex-space-between">
-            <div>${window.HT.ngMatch.data.homeShortTeamName}</div>
-            <div>Draw</div>
-            <div>${window.HT.ngMatch.data.awayShortTeamName}</div></div>
-            <div style="margin: 5px 0; line-height: 1; display: flex;">
-            <div style="padding: 2px 5px; background-color: #6ecdea; text-align: left; width: ${prediction.win}%;"><span>${prediction.win}%</span></div>
-            <div style="padding: 2px 5px; background-color: #eeeeee; text-align: center; width: ${prediction.draw}%;"><span>${prediction.draw}%</span></div>
-            <div style="padding: 2px 5px; background-color: #d15e5e; text-align: right; width: ${prediction.loss}%;"><span>${prediction.loss}%</span></div>
-            </div><div class="flex flex-space-between">
-            <div>${(10 * avgChancesHome * (1 - pressing) * avgScoringHome).toFixed(2)}</div>
-            <div>Average Goals</div>
-            <div>${(10 * avgChancesAway * (1 - pressing) * avgScoringAway).toFixed(2)}</div>
-            </div>
-            <div class="shy">Used ${ratings} ratings. Ignored SEs.</div>
-            </div>
-        `;
+        let interval = setInterval(() => {
+            let infobox = document.querySelector('.matchinfo > .boxBody');
+            if (infobox != null) {
+                clearInterval(interval);
+                infobox.innerHTML += `
+                    <div><hr><p class="center"><a href="https://shotgunshine.github.io/imp/" target="_blank">IMP: Match Predictor</a></p>
+                    <div class="flex flex-space-between">
+                    <div>${window.HT.ngMatch.data.homeShortTeamName}</div>
+                    <div>Draw</div>
+                    <div>${window.HT.ngMatch.data.awayShortTeamName}</div></div>
+                   <div style="margin: 5px 0; line-height: 1; display: flex;">
+                    <div style="padding: 2px 5px; background-color: #6ecdea; text-align: left; width: ${prediction.win}%;"><span>${prediction.win}%</span></div>
+                    <div style="padding: 2px 5px; background-color: #eeeeee; text-align: center; width: ${prediction.draw}%;"><span>${prediction.draw}%</span></div>
+                    <div style="padding: 2px 5px; background-color: #d15e5e; text-align: right; width: ${prediction.loss}%;"><span>${prediction.loss}%</span></div>
+                    </div><div class="flex flex-space-between">
+                    <div>${(10 * avgChancesHome * (1 - pressing) * avgScoringHome).toFixed(2)}</div>
+                    <div>Average Goals</div>
+                   <div>${(10 * avgChancesAway * (1 - pressing) * avgScoringAway).toFixed(2)}</div>
+                    </div>
+                    <div class="shy">Used ${ratings} ratings. Ignored SEs.</div>
+                    </div>
+                `;
+            }
+        }, 100);
     }
 })();

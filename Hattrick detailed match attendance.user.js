@@ -16,18 +16,22 @@ function detailedAttendance(seats, sold, price) {
     'use strict';
 
     let match = window.HT.ngMatch.data;
-
     if (match.isFinished && !match.isWalkover && match.sourceSystem == 'Hattrick') {
-        let table = document.querySelectorAll('.box.matchinfo .htbox-table tr');
+        let interval = setInterval(() => {
+            let rows = document.querySelectorAll('.box.matchinfo .htbox-table tr');
+            if (rows.length > 0) {
+                clearInterval(interval);
 
-        table[0].innerHTML += detailedAttendance(match.seatsStanding, match.soldSeatsStanding, 7);
-        table[1].innerHTML += detailedAttendance(match.seatsPlain, match.soldSeatsPlain, 10);
-        table[2].innerHTML += detailedAttendance(match.seatsPlus, match.soldSeatsPlus, 19);
-        table[3].innerHTML += detailedAttendance(match.seatsBoxed, match.soldSeatsBoxed, 35);
-        table[4].firstChild.nextSibling.setAttribute('colspan', 3);
-    }
+                rows[0].innerHTML += detailedAttendance(match.seatsStanding, match.soldSeatsStanding, 7);
+                rows[1].innerHTML += detailedAttendance(match.seatsPlain, match.soldSeatsPlain, 10);
+                rows[2].innerHTML += detailedAttendance(match.seatsPlus, match.soldSeatsPlus, 19);
+                rows[3].innerHTML += detailedAttendance(match.seatsBoxed, match.soldSeatsBoxed, 35);
+                rows[4].firstChild.nextSibling.setAttribute('colspan', 3);
 
-    for (let tooltip of document.getElementsByTagName('hattrick-tooltip')) {
-         tooltip.remove();
+                for (let tooltip of document.getElementsByTagName('hattrick-tooltip')) {
+                    tooltip.remove();
+                }
+            }
+        }, 100);
     }
 })();
