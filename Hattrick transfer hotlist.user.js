@@ -68,6 +68,18 @@ function hotlistButton(playerId, playerName, deadline) {
     return button;
 }
 
+function removeButton(playerId) {
+    let button = document.createElement('button');
+    button.setAttribute('type', 'button');
+    button.textContent = 'De-hotlist';
+    button.style = 'margin-right: 5px; color: red;';
+    button.addEventListener('click', () => {
+        GM_deleteValue(playerId);
+        window.location = '/Club/Transfers/';
+    });
+    return button;
+}
+
 (function() {
     'use strict';
 
@@ -77,7 +89,11 @@ function hotlistButton(playerId, playerName, deadline) {
             let playerName = document.title.split(' » ')[0];
             let playerId = window.location.search.match(/playerId=[0-9]+/)[0].split('=')[1];
             let deadline = a.parentNode.parentNode.innerHTML.match(/[0-9]+-[0-9]+-[0-9]+ [0-9]+:[0-9]+/)[0];
-            a.parentNode.insertBefore(hotlistButton(playerId, playerName, deadline), a);
+            if (GM_getValue(playerId, null) === null) {
+                a.parentNode.insertBefore(hotlistButton(playerId, playerName, deadline), a);
+            } else {
+                a.parentNode.insertBefore(removeButton(playerId), a);
+            }
         }
     }
     if (window.location.pathname.includes('Club/Transfers')) {
