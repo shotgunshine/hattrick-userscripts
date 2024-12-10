@@ -13,7 +13,7 @@ function skimSeriesFeed() {
     let filter = new RegExp([
         // italiano
 
-        ' ha scritto un messaggio sui social dove rende noto ai suoi fan di essere',
+        ' ha scritto un messaggio sui social dove rende noto ai suoi fan di essere stato',
         ' Pochi minuti dopo, l\'ufficio stampa della squadra ha confermato la notizia pubblicando un comunicato ufficiale[.]',
         'La notizia era nell\'aria già da diversi giorni, tuttavia ora è stata battuta in via ufficiale da diverse agenzie stampa: ',
         ' considerato',
@@ -35,6 +35,10 @@ function skimSeriesFeed() {
         'Nessuna ulteriore chiamata a disposizione per ',
         ' se vogliono evitare lo spareggio per non retrocedere[.]',
         ' se vuole mantenere viva la speranza di promozione[.] Riusciranno a rimanere lucidi[?]',
+        'Se vuole avere ancora opportunità di finire al primo posto, ',
+        ' Ce la faranno[?]',
+        ' se vogliono evitare lo spareggio per non retrocedere [(]o anche peggio[)]',
+        'può ancora ambire alla promozione diretta, tuttavia giocatori e allenatore ',
 
         'I tifosi di ',
         'stanno vivendo un vero e proprio psicodramma da quando ',
@@ -68,6 +72,11 @@ function skimSeriesFeed() {
         ' to avoid direct demotion',
         'There are no margins left for ',
         ' to avoid the horror of a demotion qualifier match[.]',
+        'If they want to keep their chances for finishing first, ',
+        ' Can they deliver[?]',
+        ' to avoid the horror of a demotion qualifier match, or - perhaps worse - direct demotion',
+        'still has a chance for direct promotion, but ',
+        ' to stay on track',
 
         'Following weeks of rumors, it has been confirmed that ',
         ' The team will continue to participate in all competitions, but the uncertainty surrounding the club will likely affect players and staff.',
@@ -79,7 +88,7 @@ function skimSeriesFeed() {
         'Congratulations to ',
         ' and will play in a higher division next season',
         'is seeing the consequences of their weak season and ',
-    ].join('|'), 'gi');
+    ].join('|'), 'g');
 
     let feed = document.getElementById('ctl00_ctl00_CPContent_CPMain_repLLUEvents');
     feed.innerHTML = feed.innerHTML.replaceAll(filter, '');
