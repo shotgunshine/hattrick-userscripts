@@ -33,7 +33,7 @@ function printPlayers() {
     let even = false;
     for (let id of sorted) {
         list += `<li player-id="${id}" style="padding: 5px 10px;"${even ? ' class="even"' : ''}>`;
-        list += `<input type="image" src="../../Img/Icons/cross_small.png" class="float_right" /> `;
+        list += `<input type="image" src="../../Img/Icons/cross.png" class="float_right" /> `;
         list += `<a href="/Club/Players/Player.aspx?playerId=${id}">`;
         list += GM_getValue(id).name;
         list += ` (${id})`;
