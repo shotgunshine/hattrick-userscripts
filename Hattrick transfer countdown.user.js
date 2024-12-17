@@ -23,6 +23,9 @@ function showDeadlines() {
             let sec = Math.floor(delta/1000 - 60*min - 60*60*hrs);
             a.innerHTML = a.getAttribute('data-isodate');
             a.innerHTML += ` (${formatTime(hrs)}:${formatTime(min)}:${formatTime(sec)})`;
+        } else {
+            a.innerHTML = a.getAttribute('data-isodate');
+            a.innerHTML += ' <img width="10" src="/Javascript/Angular2/assets/svgs/corner.svg">';
         }
     }
 }
