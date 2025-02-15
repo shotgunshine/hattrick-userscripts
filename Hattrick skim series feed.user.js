@@ -22,6 +22,7 @@ function skimSeriesFeed() {
         'Brutte notizie dall\'infermeria di ',
         'Brutta tegola per l\'allenatore di ',
         '[.] Questo giocatore è',
+        'pubblicato un comunicato stampa dove rende noto il nome del ',
 
         ' altrimenti le loro possibilità di promozione svaniranno[.] Riusciranno a rimanere lucidi[?]',
         'Non c\'è più speranza per ',
