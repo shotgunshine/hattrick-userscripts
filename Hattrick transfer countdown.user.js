@@ -25,7 +25,7 @@ function showDeadlines() {
             a.innerHTML += ` (${formatTime(hrs)}:${formatTime(min)}:${formatTime(sec)})`;
         } else {
             a.innerHTML = a.getAttribute('data-isodate');
-            a.innerHTML += ' <img width="10" src="/Javascript/Angular2/assets/svgs/corner.svg">';
+            a.innerHTML += ' 🏁';
         }
     }
 }
