@@ -38,12 +38,15 @@ function setFilter(filter) {
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty0').setAttribute('checked', filter.specialty0);
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtBidMax').value = filter.bidMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlBornIn').value = filter.bornIn;
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlContinent').value = filter.continent;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMin_text').value = filter.tsiMin;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMin').value = filter.tsiMin;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMin_Value').value = filter.tsiMin;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMax_text').value = filter.tsiMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMax').value = filter.tsiMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMax_Value').value = filter.tsiMax;
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_txtSalaryMin').value = filter.salaryMin;
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_txtSalaryMax').value = filter.salaryMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMin').value = filter.transferCompareMin;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMax').value = filter.transferCompareMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkUseGlobalMax').setAttribute('checked', filter.globalMax);
@@ -78,8 +81,11 @@ function getFilter() {
         specialty0: document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty0').getAttribute('checked'),
         bidMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtBidMax').value,
         bornIn: document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlBornIn').value,
+        continent: document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlContinent').value,
         tsiMin: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMin_text').value,
         tsiMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTSIMax_text').value,
+        salaryMin: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtSalaryMin').value,
+        salaryMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtSalaryMax').value,
         transferCompareMin: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMin').value,
         transferCompareMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMax').value,
         globalMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_chkUseGlobalMax').getAttribute('checked'),
