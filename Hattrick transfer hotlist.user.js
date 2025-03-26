@@ -12,8 +12,8 @@
 // @grant        GM_listValues
 // ==/UserScript==
 
-function savePlayer(id, name, deadline) {
-    GM_setValue(id, {name: name, deadline: deadline});
+function savePlayer(id, name, deadline, starting) {
+    GM_setValue(id, {name: name, deadline: deadline, starting: starting});
 }
 
 function deletePlayer(id) {
@@ -33,36 +33,40 @@ function printPlayers() {
     let even = false;
     for (let id of sorted) {
         list += `<li player-id="${id}" style="padding: 5px 10px;"${even ? ' class="even"' : ''}>`;
-        list += `<input type="image" src="../../Img/Icons/cross.png" class="float_right" /> `;
-        list += `<a href="/Club/Players/Player.aspx?playerId=${id}">`;
-        list += GM_getValue(id).name;
-        list += ` (${id})`;
-        list += '</a> ';
-        list += `<input type="text" placeholder="Notes" value="${GM_getValue(id).notes ?? ''}" /> `;
+        list += `<input type="image" src="../../Img/Icons/cross.png" class="float_right" style="margin: 16px 0 0 8px;" /> `;
+        list += `<textarea class="float_right" rows="2" cols="35">${GM_getValue(id).notes ?? ''}</textarea> `;
+        list += `<a href="/Club/Players/Player.aspx?playerId=${id}">${GM_getValue(id).name} (${id})</a>`;
         list += '<br>';
         list += `<span class="shy" data-isodate="${GM_getValue(id).deadline}">${GM_getValue(id).deadline}</span>`;
+        list += '<br>';
+        list += `<span class="shy">${GM_getValue(id).starting}</span>`;
         list += '</li>';
         even = !even;
     }
     document.getElementById('hotlisted-players').innerHTML = list;
     for (let li of document.getElementById('hotlisted-players').children) {
         let id = li.getAttribute('player-id');
-        li.children[0].addEventListener('click', event => {
+        li.querySelector('input').addEventListener('click', event => {
             deletePlayer(id);
         });
-        li.children[2].addEventListener('change', event => {
-            GM_setValue(id, {name: GM_getValue(id).name, deadline: GM_getValue(id).deadline, notes: event.target.value});
+        li.querySelector('textarea').addEventListener('change', event => {
+            GM_setValue(id, {
+                name: GM_getValue(id).name,
+                deadline: GM_getValue(id).deadline,
+                starting: GM_getValue(id).starting,
+                notes: event.target.value
+            });
         });
     }
 }
 
-function hotlistButton(playerId, playerName, deadline) {
+function hotlistButton(playerId, playerName, deadline, starting) {
     let button = document.createElement('button');
     button.setAttribute('type', 'button');
     button.textContent = 'Hotlist';
     button.style = 'margin-right: 5px;';
     button.addEventListener('click', () => {
-        savePlayer(playerId, playerName, deadline);
+        savePlayer(playerId, playerName, deadline, starting);
         window.location = '/Club/Transfers/';
     });
     return button;
@@ -89,8 +93,10 @@ function removeButton(playerId) {
             let playerName = document.title.split(' » ')[0];
             let playerId = window.location.search.match(/playerId=[0-9]+/)[0].split('=')[1];
             let deadline = a.parentNode.parentNode.innerHTML.match(/[0-9]+-[0-9]+-[0-9]+ [0-9]+:[0-9]+/)[0];
+            // TODO: currency agnostic regex
+            let starting = a.parentNode.parentNode.innerHTML.match(/([0-9]+&nbsp;)+€/)[0];
             if (GM_getValue(playerId, null) === null) {
-                a.parentNode.insertBefore(hotlistButton(playerId, playerName, deadline), a);
+                a.parentNode.insertBefore(hotlistButton(playerId, playerName, deadline, starting), a);
             } else {
                 a.parentNode.insertBefore(removeButton(playerId), a);
             }
