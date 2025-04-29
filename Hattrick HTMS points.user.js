@@ -5,6 +5,7 @@
 // @author       shotgunshine
 // @license      MIT
 // @match        https://*.hattrick.org/*/Player.aspx*
+// @match        https://*.hattrick.org/*/player.aspx*
 // @grant        none
 // ==/UserScript==
 
@@ -42,7 +43,7 @@ function getPoints(skills) {
     };
 
     let points = 0;
-    for (let s in skills) points += coefficients[s][skills[s]];
+    for (let s in skills) points += skills[s] < 24 ? coefficients[s][skills[s]] : coefficients[s].at(-1);
 
     return points;
 }
