@@ -23,6 +23,11 @@ function skimSeriesFeed() {
         'Brutta tegola per l\'allenatore di ',
         '[.] Questo giocatore è',
         'pubblicato un comunicato stampa dove rende noto il nome del ',
+        'ha rilasciato un comunicato ufficiale che ',
+        'dalla squadra[.]',
+        'ha messo sotto contratto una ',
+        'È stata una giornata nera per ',
+        'con il loro prezioso ',
 
         ' altrimenti le loro possibilità di promozione svaniranno[.] Riusciranno a rimanere lucidi[?]',
         'Non c\'è più speranza per ',
@@ -65,6 +70,10 @@ function skimSeriesFeed() {
         ' the team hopes will become a key player for the team',
         ' an essential player',
         '[.] The player is',
+        'has released a statement confirming the ',
+        'a new star [a-z ]+ by the name of ',
+        'It was an ominous day for ',
+        'as their important ',
 
         ', otherwise their promotion chances will evaporate into thin air[.] Can they deliver[?]',
         'There is no hope left for ',
