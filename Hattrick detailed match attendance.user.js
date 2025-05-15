@@ -5,7 +5,9 @@
 // @author       shotgunshine
 // @license      MIT
 // @match        https://*.hattrick.org/Club/Matches/Match.aspx*
-// @grant        none
+// @grant        GM_xmlhttpRequest
+// @grant        unsafeWindow
+// @connect      mstage.hattrick.org
 // ==/UserScript==
 
 function detailedAttendance(seats, sold, price) {
@@ -15,23 +17,34 @@ function detailedAttendance(seats, sold, price) {
 (function() {
     'use strict';
 
-    let match = window.HT.ngMatch.data;
-    if (match.isFinished && !match.isWalkover && match.sourceSystem == 'Hattrick') {
-        let interval = setInterval(() => {
-            let rows = document.querySelectorAll('.box.matchinfo .htbox-table tr');
-            if (rows.length > 0) {
-                clearInterval(interval);
+    let matchid = unsafeWindow.location.search.match('matchID=[0-9]+')[0].split('=')[1];
+    let source = window.location.search.match('SourceSystem=[A-z]+');
+    source = (source === null) ? 'Hattrick' : source[0].split('=')[1];
 
-                rows[0].innerHTML += detailedAttendance(match.seatsStanding, match.soldSeatsStanding, 7);
-                rows[1].innerHTML += detailedAttendance(match.seatsPlain, match.soldSeatsPlain, 10);
-                rows[2].innerHTML += detailedAttendance(match.seatsPlus, match.soldSeatsPlus, 19);
-                rows[3].innerHTML += detailedAttendance(match.seatsBoxed, match.soldSeatsBoxed, 35);
-                rows[4].firstChild.nextSibling.setAttribute('colspan', 3);
+    GM_xmlhttpRequest({
+        method: 'GET',
+        url: `https://mstage.hattrick.org/api/v40236/match/match/${matchid}?sourceSystem=${source}`,
+        responseType: 'json',
+        onload: response => {
+            let match = response.response;
+            if (match.isFinished && !match.isWalkover && match.sourceSystem == 'Hattrick') {
+                let interval = setInterval(() => {
+                    let rows = document.querySelectorAll('.box.matchinfo .htbox-table tr');
+                    if (rows.length > 0) {
+                        clearInterval(interval);
 
-                for (let tooltip of document.getElementsByTagName('hattrick-tooltip')) {
-                    tooltip.remove();
-                }
+                        rows[0].innerHTML += detailedAttendance(match.seatsStanding, match.soldSeatsStanding, 7);
+                        rows[1].innerHTML += detailedAttendance(match.seatsPlain, match.soldSeatsPlain, 10);
+                        rows[2].innerHTML += detailedAttendance(match.seatsPlus, match.soldSeatsPlus, 19);
+                        rows[3].innerHTML += detailedAttendance(match.seatsBoxed, match.soldSeatsBoxed, 35);
+                        rows[4].firstChild.nextSibling.setAttribute('colspan', 3);
+
+                        for (let tooltip of document.getElementsByTagName('hattrick-tooltip')) {
+                            tooltip.remove();
+                        }
+                    }
+                }, 100);
             }
-        }, 100);
-    }
+        }
+    });
 })();

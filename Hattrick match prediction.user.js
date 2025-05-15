@@ -6,7 +6,9 @@
 // @license      MIT
 // @match        https://*.hattrick.org/Club/Matches/Match.aspx*
 // @match        https://*.hattrick.org/*/Club/Matches/Match.aspx*
-// @grant        none
+// @grant        GM_xmlhttpRequest
+// @grant        unsafeWindow
+// @connect      mstage.hattrick.org
 // @require      https://shotgunshine.github.io/imp/imp/binomial.js
 // @require      https://shotgunshine.github.io/imp/imp/ratings.js
 // @require      https://shotgunshine.github.io/imp/imp/predictor.js
@@ -100,51 +102,60 @@ function getOdds(prediction) {
     'use strict';
 
     const maxMinute = 5;
-    let match = window.HT.ngMatch.data;
+    let matchid = unsafeWindow.location.search.match('matchID=[0-9]+')[0].split('=')[1];
+    let source = window.location.search.match('SourceSystem=[A-z]+');
+    source = (source === null) ? 'Hattrick' : source[0].split('=')[1];
 
-    if (match.isFinished && !match.isWalkover) {
-        let home, away, ratingsType, timeline = match.analysis.timeline.filter(x => x.minute < maxMinute).at(-1);
-        if (timeline.ratings.sectors.length) {
-            home = getRatingsHome(match, maxMinute);
-            away = getRatingsAway(match, maxMinute);
-            ratingsType = 'minute ' + timeline.minute;
-        } else {
-            home = getAverageRatingsHome(match);
-            away = getAverageRatingsAway(match);
-            ratingsType = 'average';
-        }
+    GM_xmlhttpRequest({
+        method: 'GET',
+        url: `https://mstage.hattrick.org/api/v40236/match/match/${matchid}?sourceSystem=${source}`,
+        responseType: 'json',
+        onload: response => {
+            let match = response.response;
 
-        let possession = IMP.predictor.chanceDistribution(home.midfield, away.midfield);
-        let pressing = IMP.predictor.tacticEfficacy(1, home.tactics[1]);
-        pressing += IMP.predictor.tacticEfficacy(1, away.tactics[1]);
-        let avgScoringHome = IMP.predictor.avgScoringChance(home, away);
-        let avgScoringAway = IMP.predictor.avgScoringChance(away, home);
-        let caThreshold = home.tactics[2]*away.tactics[2] ? 0.5 : 0.43245;
-        let countersHome = (possession < caThreshold) ? IMP.predictor.tacticEfficacy(2, home.tactics[2]) : 0;
-        let countersAway = (1 - possession < caThreshold) ? IMP.predictor.tacticEfficacy(2, away.tactics[2]) : 0;
-        let avgChancesHome = possession + countersHome * (1 - possession) * (1 - avgScoringAway);
-        let avgChancesAway = (1 - possession) + countersAway * possession * (1 - avgScoringHome);
+            if (match.isFinished && !match.isWalkover) {
+                let home, away, ratingsType, timeline = match.analysis.timeline.filter(x => x.minute < maxMinute).at(-1);
+                if (timeline.ratings.sectors.length) {
+                    home = getRatingsHome(match, maxMinute);
+                    away = getRatingsAway(match, maxMinute);
+                    ratingsType = 'minute ' + timeline.minute;
+                } else {
+                    home = getAverageRatingsHome(match);
+                    away = getAverageRatingsAway(match);
+                    ratingsType = 'average';
+                }
 
-        let prediction = getOdds(IMP.predictor.prediction(
-            possession,
-            pressing,
-            avgScoringHome,
-            avgScoringAway,
-            countersHome,
-            countersAway
-        ));
+                let possession = IMP.predictor.chanceDistribution(home.midfield, away.midfield);
+                let pressing = IMP.predictor.tacticEfficacy(1, home.tactics[1]);
+                pressing += IMP.predictor.tacticEfficacy(1, away.tactics[1]);
+                let avgScoringHome = IMP.predictor.avgScoringChance(home, away);
+                let avgScoringAway = IMP.predictor.avgScoringChance(away, home);
+                let caThreshold = home.tactics[2]*away.tactics[2] ? 0.5 : 0.43245;
+                let countersHome = (possession < caThreshold) ? IMP.predictor.tacticEfficacy(2, home.tactics[2]) : 0;
+                let countersAway = (1 - possession < caThreshold) ? IMP.predictor.tacticEfficacy(2, away.tactics[2]) : 0;
+                let avgChancesHome = possession + countersHome * (1 - possession) * (1 - avgScoringAway);
+                let avgChancesAway = (1 - possession) + countersAway * possession * (1 - avgScoringHome);
 
-        // wait for the page rendering
-        let interval = setInterval(() => {
-            let infobox = document.querySelector('.matchinfo > .boxBody');
-            if (infobox != null) {
-                clearInterval(interval);
-                infobox.innerHTML += `
+                let prediction = getOdds(IMP.predictor.prediction(
+                    possession,
+                    pressing,
+                    avgScoringHome,
+                    avgScoringAway,
+                    countersHome,
+                    countersAway
+                ));
+
+                // wait for the page rendering
+                let interval = setInterval(() => {
+                    let infobox = document.querySelector('.matchinfo > .boxBody');
+                    if (infobox != null) {
+                        clearInterval(interval);
+                        infobox.innerHTML += `
                     <div><hr><p class="center"><a href="https://shotgunshine.github.io/imp/" target="_blank">IMP: Match Predictor</a></p>
                     <div class="flex flex-space-between">
-                    <div>${window.HT.ngMatch.data.homeShortTeamName}</div>
+                    <div>${match.homeShortTeamName}</div>
                     <div>Draw</div>
-                    <div>${window.HT.ngMatch.data.awayShortTeamName}</div></div>
+                    <div>${match.awayShortTeamName}</div></div>
                     <div style="margin: 5px 0; line-height: 1; display: flex;">
                     <div style="padding: 2px 5px; background-color: #6ecdea; text-align: left; width: ${prediction.win}%;"><span>${prediction.win}%</span></div>
                     <div style="padding: 2px 5px; background-color: #eeeeee; text-align: center; width: ${prediction.draw}%;"><span>${prediction.draw}%</span></div>
@@ -158,16 +169,18 @@ function getOdds(prediction) {
                     <div><button id="download_ratings" type="button">Save ratings</button></div>
                     </div>
                 `;
-                document.getElementById('download_ratings').addEventListener('click', () => {
-                    let a = document.createElement("a");
-                    a.href = "data:text/json;charset=utf-8," + JSON.stringify(home);
-                    a.download = `${match.homeTeamId}_${match.matchId}.imp`;
-                    document.body.appendChild(a).click();
-                    a.href = "data:text/json;charset=utf-8," + JSON.stringify(away);
-                    a.download = `${match.awayTeamId}_${match.matchId}.imp`;
-                    a.click();
-                });
+                        document.getElementById('download_ratings').addEventListener('click', () => {
+                            let a = document.createElement("a");
+                            a.href = "data:text/json;charset=utf-8," + JSON.stringify(home);
+                            a.download = `${match.homeTeamId}_${match.matchId}.imp`;
+                            document.body.appendChild(a).click();
+                            a.href = "data:text/json;charset=utf-8," + JSON.stringify(away);
+                            a.download = `${match.awayTeamId}_${match.matchId}.imp`;
+                            a.click();
+                        });
+                    }
+                }, 100);
             }
-        }, 100);
-    }
+        }
+    });
 })();
