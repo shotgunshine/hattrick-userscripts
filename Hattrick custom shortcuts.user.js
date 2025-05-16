@@ -17,7 +17,7 @@
         {url: '/Club/TacticsRoom/?teamId=', icon: 'scAnalyzer', alt: 'Ufficio del tattico'},
         {url: 'https://shotgunshine.github.io/imp/', icon: 'scMatches', alt: 'IMP: Match Predictor'},
         {url: 'https://nickarana.pythonanywhere.com/', icon: 'scDigit1', alt: 'Nickarana\'s Match Simulator'},
-        {url: 'https://hattrickportal.pro/Utils/PlayerTraining.aspx', icon: 'scTraining', alt: 'HT Portal » Training calculator'},
+        {url: 'https://hattrickportal.online/Utils/PlayerTraining.aspx', icon: 'scTraining', alt: 'HT Portal » Training calculator'},
         {url: 'https://www.hattrick-youthclub.org/site/trainingsspeedcalculator', icon: 'scDigit2', alt: 'HT Youthclub - Training-speed calculator'}
     ];
 
