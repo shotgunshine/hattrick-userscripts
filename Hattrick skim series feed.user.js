@@ -24,10 +24,13 @@ function skimSeriesFeed() {
         '[.] Questo giocatore è',
         'pubblicato un comunicato stampa dove rende noto il nome del ',
         'ha rilasciato un comunicato ufficiale che ',
-        'dalla squadra[.]',
+        ' dalla squadra',
         'ha messo sotto contratto una ',
         'È stata una giornata nera per ',
         'con il loro prezioso ',
+        ', che porterà il suo talento di',
+        'una partenza importante, ',
+        'della loro stella ',
 
         ' altrimenti le loro possibilità di promozione svaniranno[.] Riusciranno a rimanere lucidi[?]',
         'Non c\'è più speranza per ',
@@ -74,6 +77,8 @@ function skimSeriesFeed() {
         'a new star [a-z ]+ by the name of ',
         'It was an ominous day for ',
         'as their important ',
+        'a major squad departure with ',
+        'star player ',
 
         ', otherwise their promotion chances will evaporate into thin air[.] Can they deliver[?]',
         'There is no hope left for ',
