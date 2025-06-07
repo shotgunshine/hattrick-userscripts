@@ -29,13 +29,21 @@ function setFilter(filter) {
     document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlSkill4Min').value = filter.skill4Min;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlSkill4Max').value = filter.skill4Max;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty1').setAttribute('checked', filter.specialty1);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty1').checked = filter.specialty1 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty2').setAttribute('checked', filter.specialty2);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty2').checked = filter.specialty2 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty3').setAttribute('checked', filter.specialty3);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty3').checked = filter.specialty3 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty4').setAttribute('checked', filter.specialty4);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty4').checked = filter.specialty4 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty5').setAttribute('checked', filter.specialty5);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty5').checked = filter.specialty5 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty6').setAttribute('checked', filter.specialty6);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty6').checked = filter.specialty6 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty8').setAttribute('checked', filter.specialty8);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty8').checked = filter.specialty8 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty0').setAttribute('checked', filter.specialty0);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkSpecialty0').checked = filter.specialty0 == 'checked';
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtBidMax').value = filter.bidMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlBornIn').value = filter.bornIn;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlContinent').value = filter.continent;
@@ -49,8 +57,9 @@ function setFilter(filter) {
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtSalaryMax').value = filter.salaryMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMin').value = filter.transferCompareMin;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMax').value = filter.transferCompareMax;
-    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkUseGlobalMax').setAttribute('checked', filter.globalMax);
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_chkUseGlobalMax').checked = filter.globalMax;
     document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlGlobalSkillMax').value = filter.globalMaxSkill;
+    document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlGlobalSkillMax').disabled = !filter.globalMax;
 }
 
 function getFilter() {
@@ -88,7 +97,7 @@ function getFilter() {
         salaryMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtSalaryMax').value,
         transferCompareMin: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMin').value,
         transferCompareMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_txtTransferCompareAvgMax').value,
-        globalMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_chkUseGlobalMax').getAttribute('checked'),
+        globalMax: document.getElementById('ctl00_ctl00_CPContent_CPMain_chkUseGlobalMax').checked,
         globalMaxSkill: document.getElementById('ctl00_ctl00_CPContent_CPMain_ddlGlobalSkillMax').value
     }
 }
@@ -108,10 +117,7 @@ function deleteFilter(name) {
 function printFilters() {
     let list = '';
     for (let f of GM_listValues()) {
-        list += `<li filter-name="${f}">
-            <input type="image" src="../../Img/Icons/cross_small.png" class="float_right">
-            <a href="#${f}">${f}</a>
-            </li>`;
+        list += `<li filter-name="${f}"><input type="image" src="../../Img/Icons/cross_small.png" class="float_right"><a href="#${f}">${f}</a></li>`;
     }
     document.getElementById('customFilterList').innerHTML = list;
     for (let li of document.getElementById('customFilterList').children) {
