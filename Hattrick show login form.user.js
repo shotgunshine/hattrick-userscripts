@@ -11,5 +11,11 @@
 (function() {
     'use strict';
 
-    document.querySelector('app-signup .extra-message > a').click();
+    if (document.querySelector('#divNewUserSignupLink > a')) {
+        window.HT.startPage.showFirstSignupSetup = null;
+        window.HT.startPage.hideFirstSignupSetup();
+    }
+
+    let newLogin = document.querySelector('app-signup .extra-message > a');
+    if (newLogin) newLogin.click();
 })();
