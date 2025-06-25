@@ -116,7 +116,7 @@ function deleteFilter(name) {
 
 function printFilters() {
     let list = '';
-    for (let f of GM_listValues()) {
+    for (let f of GM_listValues().toSorted()) {
         list += `<li filter-name="${f}"><input type="image" src="../../Img/Icons/cross_small.png" class="float_right"><a href="#${f}">${f}</a></li>`;
     }
     document.getElementById('customFilterList').innerHTML = list;
