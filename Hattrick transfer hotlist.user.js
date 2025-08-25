@@ -31,11 +31,12 @@ function printPlayers() {
     let sorted = hotlist.sort((a,b) => { return getTime(GM_getValue(a).deadline) - getTime(GM_getValue(b).deadline); });
     let list = '';
     let even = false;
+    let browse = '&BrowseIds=' + sorted.join(',');
     for (let id of sorted) {
         list += `<li player-id="${id}" style="padding: 5px 10px;"${even ? ' class="even"' : ''}>`;
         list += `<input type="image" src="../../Img/Icons/cross.png" class="float_right" style="margin: 16px 0 0 8px;" /> `;
         list += `<textarea class="float_right" rows="2" cols="35">${GM_getValue(id).notes ?? ''}</textarea> `;
-        list += `<a href="/Club/Players/Player.aspx?playerId=${id}">${GM_getValue(id).name} (${id})</a>`;
+        list += `<a href="/Club/Players/Player.aspx?playerId=${id}${browse}">${GM_getValue(id).name} (${id})</a>`;
         list += '<br>';
         list += `<span class="shy" data-isodate="${GM_getValue(id).deadline}">${GM_getValue(id).deadline}</span>`;
         list += '<br>';
