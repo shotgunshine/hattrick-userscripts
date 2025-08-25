@@ -11,11 +11,13 @@
 (function() {
     'use strict';
 
-    if (document.querySelector('#divNewUserSignupLink > a')) {
-        window.HT.startPage.showFirstSignupSetup = null;
-        window.HT.startPage.hideFirstSignupSetup();
+    if (document.querySelector('ng-app-signup')) {
+        let interval = setInterval(() => {
+            let newLogin = document.querySelector('app-signup .extra-message > a');
+            if (newLogin) {
+                clearInterval(interval);
+                newLogin.click();
+            }
+        }, 10);
     }
-
-    let newLogin = document.querySelector('app-signup .extra-message > a');
-    if (newLogin) newLogin.click();
 })();
