@@ -50,6 +50,7 @@ function skimSeriesFeed() {
         ' Ce la faranno[?]',
         ' se vogliono evitare lo spareggio per non retrocedere [(]o anche peggio[)]',
         'può ancora ambire alla promozione diretta, tuttavia giocatori e allenatore ',
+        'ha raggiunto la fine del suo percorso ',
 
         'I tifosi di ',
         'stanno vivendo un vero e proprio psicodramma da quando ',
@@ -67,7 +68,7 @@ function skimSeriesFeed() {
 
         ' has announced to social media networks that he',
         'announced on social media that he ',
-        ' Minutes later, the move was confirmed by the club[.]',
+        ' M(oments|inutes) later, the move was confirmed by the club[.]',
         ', a big name on the squad[.] It will be interesting to see what other changes this may lead to',
         'often described as ',
         ' the team hopes will become a key player for the team',
@@ -94,6 +95,7 @@ function skimSeriesFeed() {
         ' to avoid the horror of a demotion qualifier match, or - perhaps worse - direct demotion',
         'still has a chance for direct promotion, but ',
         ' to stay on track',
+        '[.] They were defeated',
 
         'Following weeks of rumors, it has been confirmed that ',
         ' The team will continue to participate in all competitions, but the uncertainty surrounding the club will likely affect players and staff.',
