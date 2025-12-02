@@ -63,6 +63,10 @@ function skimSeriesFeed() {
         ' è purtroppo diventata realtà',
         'deve voltare pagina dopo il triste epilogo dello scorso campionato[.] A seguito della retrocessione, la squadra ',
         'Fresca di promozione, ',
+        'Una stagione impegnativa ha avuto come risultato la ',
+        ' la scorsa stagione e giochera ora in questa serie',
+        'Dopo una stagione difficile ',
+        ' cerca di ripartire da qui',
 
         // english
 
@@ -88,6 +92,7 @@ function skimSeriesFeed() {
         'to get real[.] They ',
         'It\'s time for ',
         ' to avoid direct demotion',
+        ' to get real[.] To keep their chance to avoid direct demotion, they',
         'There are no margins left for ',
         ' to avoid the horror of a demotion qualifier match[.]',
         'If they want to keep their chances for finishing first, ',
