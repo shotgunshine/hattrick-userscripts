@@ -85,6 +85,33 @@ function removeButton(playerId) {
     return button;
 }
 
+function exportButton() {
+    let button = document.createElement('button');
+    button.setAttribute('type', 'button');
+    button.setAttribute('class', 'float_right');
+    button.textContent = 'CSV';
+    button.addEventListener('click', () => {
+        let a = document.createElement('a');
+        a.href = 'data:text/csv;charset=utf-8,';
+        a.href += 'Deadline,Player,Link,Comment%0A';
+        let hotlist = GM_listValues();
+        let sorted = hotlist.sort((a,b) => { return getTime(GM_getValue(a).deadline) - getTime(GM_getValue(b).deadline); });
+        for (let id of sorted) {
+            a.href += encodeURIComponent(GM_getValue(id).deadline);
+            a.href += ',';
+            a.href += encodeURIComponent(GM_getValue(id).name);
+            a.href += ',';
+            a.href += encodeURIComponent('https://www.hattrick.org/en-us/Club/Players/Player.aspx?playerId=' + id);
+            a.href += ',';
+            a.href += encodeURIComponent(GM_getValue(id).notes);
+            a.href += '%0A';
+        }
+        a.download = 'hotlist.csv';
+        document.body.appendChild(a).click();
+    });
+    return button;
+}
+
 (function() {
     'use strict';
 
@@ -106,9 +133,10 @@ function removeButton(playerId) {
     if (window.location.pathname.includes('Club/Transfers')) {
         let a = document.querySelector('.club-transfer-table');
         if (a) {
-            let box = '<div style="margin-right: 9px;"><div class="box mainBox"><h2>Hotlisted players</h2><ul id="hotlisted-players"></ul></div></div>';
+            let box = '<div style="margin-right: 9px;"><div class="box mainBox"><h2 id="hotlist-heading">Hotlisted players</h2><ul id="hotlisted-players"></ul></div></div>';
             a.innerHTML += box;
             printPlayers();
+            document.getElementById('hotlist-heading').appendChild(exportButton());
         }
     }
 })();
