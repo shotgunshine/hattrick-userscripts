@@ -38,9 +38,9 @@ function printPlayers() {
         list += `<textarea class="float_right" rows="2" cols="35">${GM_getValue(id).notes ?? ''}</textarea> `;
         list += `<a href="/Club/Players/Player.aspx?playerId=${id}${browse}">${GM_getValue(id).name} (${id})</a>`;
         list += '<br>';
-        list += `<span class="shy" data-isodate="${GM_getValue(id).deadline}">${GM_getValue(id).deadline}</span>`;
+        list += `<span class="shy" data-isodate="${GM_getValue(id).deadline}">Deadline: ${GM_getValue(id).deadline}</span>`;
         list += '<br>';
-        list += `<span class="shy">${GM_getValue(id).starting}</span>`;
+        list += `<span class="shy">Starting: ${GM_getValue(id).starting}</span>`;
         list += '</li>';
         even = !even;
     }
@@ -102,9 +102,9 @@ function exportButton() {
             a.href += encodeURIComponent(GM_getValue(id).name);
             a.href += ',';
             a.href += encodeURIComponent('https://www.hattrick.org/en-us/Club/Players/Player.aspx?playerId=' + id);
-            a.href += ',';
+            a.href += ',"';
             a.href += encodeURIComponent(GM_getValue(id).notes);
-            a.href += '%0A';
+            a.href += '"%0A';
         }
         a.download = 'hotlist.csv';
         document.body.appendChild(a).click();
